@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Engineer Network Optimization & Improvement — Bank Mandiri" />
+  <title>Anton Roycar Nababan</title>
+
+  <script>
+    (function(){
+      try{ var t=localStorage.getItem("pf-theme"); document.documentElement.setAttribute("data-theme",t||"dark"); }catch(e){}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Light tokens ── */
+    :root {
+      --bg:          #f0f2f8;
+      --bg-2:        #e4e7f0;
+      --surface:     #ffffff;
+      --surface-2:   #edf0f7;
+      --surface-3:   #e4e8f2;
+      --ink:         #111827;
+      --ink-2:       #374151;
+      --ink-3:       #6b7280;
+      --faint:       #9ca3af;
+      --line:        #d1d8e8;
+      --line-2:      #b8c2d8;
+      --accent:      #3b56d9;
+      --accent-h:    #2f44b8;
+      --accent-glow: rgba(59,86,217,.15);
+      --accent-bg:   rgba(59,86,217,.08);
+      --amber:       #c2800a;
+      --amber-bg:    rgba(194,128,10,.10);
+      --green:       #16a34a;
+      --green-bg:    rgba(22,163,74,.10);
+      --green-line:  rgba(22,163,74,.25);
+      --shadow-sm:   0 1px 4px rgba(30,40,90,.07), 0 4px 14px rgba(30,40,90,.05);
+      --shadow-md:   0 4px 18px rgba(30,40,90,.10), 0 12px 36px rgba(30,40,90,.08);
+      --radius:      14px;
+      --radius-sm:   9px;
+      --top-h:       58px;
+      --sidebar-w:   296px;
+      --ease:        cubic-bezier(.22,.61,.36,1);
+      --font:        -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --mono:        "JetBrains Mono", ui-monospace, monospace;
+      color-scheme: light;
+    }
+
+    /* ── Dark tokens — Sleek Modern Developer Theme ── */
+    [data-theme="dark"] {
+      --bg:          #0d1117;
+      --bg-2:        #161b22;
+      --surface:     #161b22;
+      --surface-2:   #21262d;
+      --surface-3:   #30363d;
+      --ink:         #ffffff;
+      --ink-2:       #f0f6fc;
+      --ink-3:       #c9d1d9;
+      --faint:       #484f58;
+      --line:        #30363d;
+      --line-2:      #484f58;
+      --accent:      #58a6ff;
+      --accent-h:    #79c0ff;
+      --accent-glow: rgba(88,166,255,.15);
+      --accent-bg:   rgba(88,166,255,.10);
+      --amber:       #e3b341;
+      --amber-bg:    rgba(227,179,65,.13);
+      --green:       #56d364;
+      --green-bg:    rgba(86,211,100,.10);
+      --green-line:  rgba(86,211,100,.25);
+      --shadow-sm:   0 4px 12px rgba(0,0,0,.45);
+      --shadow-md:   0 8px 24px rgba(0,0,0,.60);
+      color-scheme: dark;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    ul, ol { list-style: none; }
+    a { color: inherit; text-decoration: none; }
+    h1,h2,h3,h4 { font-weight: 600; line-height: 1.25; }
+
+    /* ── Topbar ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      height: var(--top-h);
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    }
+    .topbar__inner {
+      max-width: 1200px; margin-inline: auto;
+      padding-inline: clamp(1rem, 4vw, 2.5rem);
+      height: 100%;
+      display: flex; align-items: center; justify-content: flex-end; gap: 1rem;
+    }
+
+    .theme-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      background: var(--surface-2); border: 1px solid var(--line);
+      border-radius: 50%; cursor: pointer; color: var(--ink-3);
+      transition: color .18s, border-color .18s, background .18s;
+    }
+    .theme-btn:hover { color: var(--ink); border-color: var(--line-2); background: var(--surface-3); }
+
+    /* ── Layout ── */
+    .outer {
+      max-width: 1200px; margin-inline: auto;
+      padding: 2rem clamp(1rem, 4vw, 2.5rem) 5rem;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0,1fr);
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky; top: calc(var(--top-h) + 1.5rem); align-self: start;
+    }
+    .profile-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 100px; height: 100px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-bg) 0%, var(--amber-bg) 100%);
+      border: 2px solid var(--line-2);
+      display: grid; place-items: center;
+      font-family: var(--mono); font-size: 1.5rem; font-weight: 600;
+      color: var(--accent); overflow: hidden;
+      box-shadow: 0 0 0 4px var(--accent-glow);
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .profile-name {
+      font-size: 1.2rem; font-weight: 700;
+      letter-spacing: -.02em; margin-top: 1rem;
+      word-break: break-word;
+    }
+    .profile-role {
+      font-family: var(--mono); font-size: .72rem;
+      color: var(--accent); margin-top: .3rem; font-weight: 500; line-height: 1.4;
+      word-break: break-word;
+    }
+    .divider { width: 100%; height: 1px; background: var(--line); margin: 1.5rem 0; }
+
+    /* Meta / Lokasi dibuat rata tengah secara default & responsif */
+    .meta { display: flex; justify-content: center; gap: .5rem; width: 100%; }
+    .meta-item {
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+      font-size: .83rem; color: var(--ink-2); text-align: center;
+      word-break: break-word;
+    }
+    .meta-item svg { color: var(--ink-3); flex-shrink: 0; }
+
+    /* Social row — centered, spaced */
+    .social-row {
+      display: flex; justify-content: center; gap: .85rem;
+      margin-top: 1.5rem;
+    }
+    .social-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: var(--ink-3);
+      transition: color .18s, border-color .18s, background .18s, transform .18s;
+    }
+    .social-icon:hover {
+      color: var(--accent); border-color: var(--accent);
+      background: var(--accent-bg); transform: translateY(-2px);
+    }
+
+    /* ── Tabs ── */
+    .tabs {
+      display: flex; gap: .1rem;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 1.75rem;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .65rem .95rem;
+      font-size: .9rem; font-weight: 500; white-space: nowrap;
+      color: var(--ink-3); border-bottom: 2px solid transparent;
+      margin-bottom: -1px; cursor: pointer;
+      transition: color .18s var(--ease);
+      background: none; border-top: none; border-left: none; border-right: none;
+      font-family: var(--font);
+    }
+    .tab:hover { color: var(--ink); }
+    .tab.active { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+    .tab-pill {
+      font-family: var(--mono); font-size: .67rem;
+      color: var(--ink-3); background: var(--surface-2);
+      border: 1px solid var(--line); padding: .04rem .42rem; border-radius: 999px;
+    }
+
+    /* ── Panels ── */
+    .panel { display: none; }
+    .panel.active { display: block; animation: fadeUp .25s var(--ease) both; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(7px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── Overview ── */
+    .summary { max-width: 100%; }
+    .summary p { font-size: 1rem; color: var(--ink-2); line-height: 1.78; text-align: justify; }
+    .summary p + p { margin-top: .9rem; }
+
+    .section-block { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+    .section-label {
+      font-family: var(--mono); font-size: .7rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink-3); font-weight: 500; margin-bottom: 1.2rem;
+    }
+
+    .skill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px,1fr)); gap: 1.2rem 1.6rem; }
+    .skill-group-title { font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: .55rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: .32rem; }
+    .tag {
+      font-family: var(--mono); font-size: .74rem;
+      color: var(--ink-2); background: var(--surface-2);
+      border: 1px solid var(--line); padding: .2rem .52rem; border-radius: 6px;
+      transition: border-color .18s, color .18s, background .18s;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+    .tag--sm { font-size: .69rem; padding: .16rem .44rem; }
+
+    /* ── Experience (Unified Timeline) ── */
+    .exp-list { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 1.75rem; 
+      border-left: 2px solid var(--line);
+      margin-left: 1rem;
+      padding-left: 1.75rem;
+    }
+
+    .exp-item {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      transition: transform .18s var(--ease), border-color .18s;
+      padding: 1.4rem;
+    }
+
+    .exp-item:hover {
+      border-color: var(--line-2);
+    }
+
+    /* Timeline Dots */
+    .exp-item::before {
+      content: "";
+      position: absolute;
+      left: -2.25rem; /* Centered over the border */
+      top: 1.75rem;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--accent);
+      z-index: 2;
+    }
+
+    .exp-item-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+    .exp-item-title { font-size: .97rem; font-weight: 700; color: var(--ink); }
+    .exp-item-org {
+      font-family: var(--mono); font-size: .77rem;
+      color: var(--accent); margin-top: .15rem; font-weight: 500;
+    }
+    .exp-item-period {
+      font-family: var(--mono); font-size: .71rem; color: var(--ink-3);
+      margin-top: .25rem; letter-spacing: .02em;
+    }
+    .exp-item-right { display: flex; align-items: center; gap: .4rem; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
+    .exp-badge {
+      font-family: var(--mono); font-size: .63rem; font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase;
+      padding: .18rem .55rem; border-radius: 999px;
+    }
+    .exp-badge--current {
+      color: var(--accent); background: var(--accent-bg);
+      border: 1px solid rgba(88,166,255,.3);
+    }
+    .exp-badge--type {
+      color: var(--ink-3); background: var(--surface-3);
+      border: 1px solid var(--line);
+    }
+    .exp-points { margin-top: .85rem; display: grid; gap: .5rem; }
+    .exp-points li {
+      position: relative; padding-left: 1rem;
+      color: var(--ink-2); font-size: .91rem; line-height: 1.55; text-align: justify;
+    }
+    .exp-points li::before {
+      content: "▸"; position: absolute; left: 0;
+      color: var(--accent); font-size: .7rem; top: .18rem;
+    }
+
+    /* ── Projects ── */
+    .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1rem; }
+    .proj-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 1.35rem;
+      display: flex; flex-direction: column; gap: .75rem;
+      transition: transform .18s var(--ease), border-color .18s, box-shadow .18s;
+      box-shadow: var(--shadow-sm);
+    }
+    .proj-card:hover { transform: translateY(-3px); border-color: var(--line-2); box-shadow: var(--shadow-md); }
+    .proj-head { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+    .proj-name { font-size: 1rem; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+    .proj-link { color: var(--ink-3); display: inline-flex; flex-shrink: 0; transition: color .18s; }
+    .proj-link:hover { color: var(--accent); }
+    .proj-desc { font-size: .88rem; color: var(--ink-2); line-height: 1.55; flex: 1; text-align: justify; }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .tab:focus-visible { outline-offset: -2px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; gap: 1.5rem; }
+      .sidebar { position: static; }
+      .profile-card {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 0 1.25rem;
+        align-items: start;
+        text-align: left;
+      }
+      .avatar { width: 72px; height: 72px; font-size: 1.2rem; box-shadow: none; }
+      .profile-card > .avatar { grid-row: 1 / 3; }
+      .profile-name { margin-top: 0; }
+      .meta { justify-content: flex-start; }
+      .social-row { justify-content: flex-start; }
+    }
+    @media (max-width: 540px) {
+      .outer { padding-top: 1.25rem; padding-bottom: 3.5rem; }
+      .profile-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
+      .profile-card > .avatar { width: 68px; height: 68px; }
+      .meta, .social-row { justify-content: center; }
+      .project-grid { grid-template-columns: 1fr; }
+      .skill-grid { grid-template-columns: 1fr 1fr; }
+      .tabs { gap: 0; }
+      .tab { padding: .6rem .7rem; font-size: .84rem; }
+      .exp-item-head { flex-direction: column; gap: .35rem; }
+      .exp-item-right { justify-content: flex-start; }
+      .exp-list { padding-left: 1rem; margin-left: .5rem; }
+      .exp-item::before { left: -1.5rem; }
+    }
+    @media (max-width: 360px) { .skill-grid { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration:.001ms!important; transition-duration:.001ms!important; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <button class="theme-btn" id="theme-btn" aria-label="Toggle light / dark theme" aria-pressed="false">
+      <svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="outer">
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="profile-card">
+        <div class="avatar">
+            <img src="antonroycar.png" alt="Anton Roycar Nababan" />
+        </div>
+
+        <h1 class="profile-name">Anton Roycar Nababan</h1>
+        <p class="profile-role">Network Optimization &amp; Improvement @ Bank Mandiri</p>
+
+        <div class="divider" role="separator"></div>
+
+        <ul class="meta">
+          <li class="meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            Jakarta, Indonesia
+          </li>
+        </ul>
+
+        <div class="social-row" role="list" aria-label="Contact and social links">
+          <a class="social-icon" href="mailto:antonnababan214@gmail.com" aria-label="Email" role="listitem" title="antonnababan214@gmail.com">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          </a>
+          <a class="social-icon" href="https://www.linkedin.com/in/antonroycarnababan/" target="_blank" rel="noopener" aria-label="LinkedIn" role="listitem" title="linkedin.com/in/antonroycarnababan">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3zM9 9h3.8v1.64h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.81V21H9z"/></svg>
+          </a>
+          <a class="social-icon" href="https://github.com/antonroycar" target="_blank" rel="noopener" aria-label="GitHub" role="listitem" title="github.com/antonroycar">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .2a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8 8 0 0 0 8 .2Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <nav class="tabs" aria-label="Portfolio sections">
+        <button class="tab active" data-target="overview">Overview</button>
+        <button class="tab" data-target="experience">Experience <span class="tab-pill" id="exp-count">0</span></button>
+        <button class="tab" data-target="projects">Projects <span class="tab-pill" id="proj-count">4</span></button>
+      </nav>
+
+      <section class="panel active" id="overview" tabindex="-1" aria-label="Overview">
+        <div class="summary" id="summary-el"></div>
+        <div class="section-block">
+          <p class="section-label">Skills</p>
+          <div class="skill-grid" id="skills-el"></div>
+        </div>
+      </section>
+
+      <section class="panel" id="experience" tabindex="-1" aria-label="Experience">
+        <div class="exp-list" id="exp-el"></div>
+      </section>
+
+      <section class="panel" id="projects" tabindex="-1" aria-label="Projects">
+        <div class="project-grid" id="proj-el"></div>
+      </section>
+    </main>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var NAME = "Anton Roycar Nababan";
+
+  var SUMMARY = [
+    "Network engineer managing F5 BIG-IP LTM for traffic load balancing, ensuring high availability and optimal network performance.",
+    "Actively developing robust monitoring solutions and automation tools to streamline workflows, facilitate team operations, and improve overall infrastructure efficiency."
+  ];
+
+  var SKILLS = [
+    { title: "Languages",     tags: ["Python", "PHP", "Java", "JavaScript"] },
+    { title: "Frameworks",    tags: ["Laravel", "Spring Boot", "Flask"] },
+    { title: "Databases",     tags: ["MySQL", "PostgreSQL", "MariaDB"] },
+    { title: "Infra & Tools", tags: ["Linux", "Git", "REST API"] },
+    { title: "Networking",    tags: ["F5 BIG-IP LTM", "Load Balancing"] }
+  ];
+
+  var EXPERIENCE = [
+    {
+      title: "Engineer Network Optimization & Improvement",
+      org: "PT Bank Mandiri (Persero) Tbk",
+      period: "Apr 2025 — Present",
+      employment: "Full-time",
+      current: true,
+      points: [
+        "Manage and maintain F5 BIG-IP LTM configurations to ensure optimal load balancing across critical banking services.",
+        "Monitor and optimize network traffic distribution for high-availability internal platforms.",
+        "Contribute to team-level automation initiatives, building scripts and tooling to streamline repetitive operational tasks.",
+        "Collaborate with cross-functional infrastructure teams on network improvement projects."
+      ]
+    },
+    {
+      title: "ODP IT (Officer Development Program)",
+      org: "PT Bank Mandiri (Persero) Tbk",
+      period: "Feb 2025 — Apr 2025",
+      employment: "Full-time",
+      current: false,
+      points: [
+        "Completed the IT Officer Development Program, gaining foundational knowledge of Mandiri's IT infrastructure and operational processes.",
+        "Rotated across IT divisions to understand enterprise-scale systems and internal tooling."
+      ]
+    },
+    {
+      title: "Backend Engineer",
+      org: "Tritronik",
+      period: "Oct 2024 — Jan 2025",
+      employment: "Contract",
+      current: false,
+      points: [
+        "Developed and maintained the backend system for Telkomsel's B2B project.",
+        "Designed REST APIs, managed relational databases, and integrated third-party services to ensure performance, security, and scalability."
+      ]
+    },
+    {
+      title: "Teaching Assistant",
+      org: "Institut Teknologi Del",
+      period: "Sep 2021 — Jun 2024",
+      employment: "Part-time",
+      current: false,
+      points: [
+        "Mentored and delivered academic support to students in Discrete Mathematics, Digital System, Computer Network, Linear Algebra, and Artificial Intelligence courses."
+      ]
+    },
+    {
+      title: "Software Engineer",
+      org: "Unit KHDTK IT Del",
+      period: "Sep 2023 — Jan 2024",
+      employment: "Internship",
+      current: false,
+      points: [
+        "Built a web application for agricultural sensor data visualization, including farm plot monitoring and an agricultural calculator.",
+        "Designed a separate inventory management system for KHDTK IT Del.",
+        "Collaborated with cross-disciplinary teams to ensure seamless data integration."
+      ]
+    },
+    {
+      title: "Software Engineer",
+      org: "IOTERA",
+      period: "Jun 2023 — Aug 2023",
+      employment: "Internship",
+      current: false,
+      points: [
+        "Developed a Android mobile app integrated with a bill validator for vending machines.",
+        "Enabled seamless hardware communication and optimized real-time transaction performance.",
+        "Gained hands-on experience in mobile development and IoT integration."
+      ]
+    },
+    {
+      title: "Cloud Computing Student",
+      org: "Bangkit Academy (Google · Tokopedia · Gojek · Traveloka)",
+      period: "2022 — 2023",
+      employment: "Apprenticeship",
+      current: false,
+      points: [
+        "Developed a cloud-native Mentoring App with advanced real-time collaboration features.",
+        "Applied GCP concepts using Google Cloud Skills Boost, Dicoding, and Coursera.",
+        "Delivered a final capstone project with a cross-functional team aligned to industry standards."
+      ]
+    },
+    {
+      title: "System Analyst Specialist",
+      org: "Sagara Technology",
+      period: "Jun 2022 — Sep 2022",
+      employment: "Internship",
+      current: false,
+      points: [
+        "Analyzed business requirements and translated them into technical specifications.",
+        "Collaborated with development teams to design and implement software systems.",
+        "Created documentation and training materials to support successful system delivery."
+      ]
+    }
+  ];
+
+  var PROJECTS = [
+    {
+      name: "Taripar Website",
+      desc: "Web application for farm plot monitoring and agricultural sensor data visualization, plus a separate inventory management system for KHDTK IT Del.",
+      tech: ["Laravel", "MySQL", "REST API"],
+      url:  "https://github.com/Taripar-Technology"
+    },
+    {
+      name: "Vending Machine Mobile App",
+      desc: "Android mobile app integrated with a bill validator for vending machines, enabling hardware communication and real-time transaction handling via IoT.",
+      tech: ["Android", "IoT"],
+      url:  "https://github.com/antonroycar/cba9-android"
+    },
+    {
+      name: "Smart Homestay",
+      desc: "Backend service for homestay management, covering reservations, transactions, and user accounts, with Kafka-based event-driven notifications.",
+      tech: ["Java", "Spring Boot", "Kafka", "MongoDB"],
+      url:  "https://github.com/antonroycar/smart-homestay"
+    },
+    {
+      name: "Healthy Del",
+      desc: "Web-based application developed for the IT Del Clinic, enabling patient registration, medical history management, and automated sick note generation.",
+      tech: ["Laravel", "JavaScript", "MySQL"],
+      url:  "https://github.com/antonroycar/Healthy-Del"
+    }
+  ];
+
+  var ICON_GH = '<svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 .2a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8 8 0 0 0 8 .2Z"/></svg>';
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});
+  }
+  function $id(id){ return document.getElementById(id); }
+
+  function renderSummary(){
+    $id("summary-el").innerHTML = SUMMARY.map(function(p){ return "<p>"+esc(p)+"</p>"; }).join("");
+  }
+
+  function renderSkills(){
+    $id("skills-el").innerHTML = SKILLS.map(function(g){
+      return '<div class="skill-group"><p class="skill-group-title">'+esc(g.title)+"</p>"+
+        '<ul class="tags">'+g.tags.map(function(t){ return '<li class="tag">'+esc(t)+"</li>"; }).join("")+"</ul></div>";
+    }).join("");
+  }
+
+  function renderExperience(){
+    var html = EXPERIENCE.map(function(g){
+      var pts = g.points && g.points.length
+        ? '<ul class="exp-points">'+g.points.map(function(p){ return "<li>"+esc(p)+"</li>"; }).join("")+"</ul>"
+        : "";
+      var currentBadge = g.current
+        ? '<span class="exp-badge exp-badge--current">Current</span>' : "";
+      var typeBadge = '<span class="exp-badge exp-badge--type">'+esc(g.employment)+"</span>";
+
+      return '<div class="exp-item">' +
+        '<div class="exp-item-head">' +
+          '<div class="exp-item-left">' +
+            '<div class="exp-item-title">'+esc(g.title)+"</div>" +
+            '<div class="exp-item-org">'+esc(g.org)+"</div>" +
+            '<div class="exp-item-period">'+esc(g.period)+"</div>" +
+          '</div>' +
+          '<div class="exp-item-right">' +
+            currentBadge + typeBadge +
+          '</div>' +
+        '</div>' +
+        pts +
+      '</div>';
+    }).join("");
+
+    $id("exp-count").textContent = String(EXPERIENCE.length);
+    $id("exp-el").innerHTML = html;
+  }
+
+  function renderProjects(){
+    $id("proj-count").textContent = String(PROJECTS.length);
+    $id("proj-el").innerHTML = PROJECTS.map(function(p){
+      var link = p.url ? '<a class="proj-link" href="'+esc(p.url)+'" target="_blank" rel="noopener" aria-label="View on GitHub">'+ICON_GH+"</a>" : "";
+      return '<article class="proj-card">' +
+        '<div class="proj-head"><h3 class="proj-name">'+esc(p.name)+"</h3>"+link+"</div>" +
+        '<p class="proj-desc">'+esc(p.desc)+"</p>" +
+        '<ul class="tags">'+p.tech.map(function(t){ return '<li class="tag tag--sm">'+esc(t)+"</li>"; }).join("")+"</ul>" +
+      "</article>";
+    }).join("");
+  }
+
+  var PANELS = ["overview","experience","projects"];
+  function showTab(id, focus){
+    if(PANELS.indexOf(id)<0) id="overview";
+    PANELS.forEach(function(s){
+      var p=$id(s); if(p) p.classList.toggle("active",s===id);
+    });
+    document.querySelectorAll(".tab").forEach(function(b){
+      b.classList.toggle("active",b.dataset.target===id);
+    });
+    if(focus){ var el=$id(id); if(el) el.focus({preventScroll:true}); }
+    window.scrollTo(0,0);
+  }
+  function navigate(id,focus){
+    showTab(id,focus);
+    var h="#"+id;
+    if(location.hash!==h) history.pushState({s:id},"",h);
+  }
+
+  function currentTheme(){ return document.documentElement.getAttribute("data-theme")==="dark"?"dark":"light"; }
+  function applyTheme(t){
+    document.documentElement.setAttribute("data-theme",t);
+    var btn=$id("theme-btn"); if(!btn) return;
+    var d=t==="dark";
+    btn.setAttribute("aria-pressed",String(d));
+    btn.querySelector(".icon-moon").style.display=d?"none":"";
+    btn.querySelector(".icon-sun").style.display=d?"":"none";
+    try{localStorage.setItem("pf-theme",t);}catch(e){}
+  }
+
+  function init(){
+    document.title = NAME;
+    renderSummary(); renderSkills(); renderExperience(); renderProjects();
+    var saved; try{saved=localStorage.getItem("pf-theme");}catch(e){}
+    applyTheme(saved||"dark");
+
+    document.querySelectorAll(".tab").forEach(function(b){
+      b.addEventListener("click",function(){ navigate(b.dataset.target,true); });
+    });
+    var tb=$id("theme-btn");
+    if(tb) tb.addEventListener("click",function(){ applyTheme(currentTheme()==="dark"?"light":"dark"); });
+
+    document.addEventListener("keydown",function(e){
+      if(e.metaKey||e.ctrlKey||e.altKey) return;
+      var el=e.target,tag=el?el.tagName:"";
+      if(tag==="INPUT"||tag==="TEXTAREA"||el.isContentEditable) return;
+      var n=parseInt(e.key,10);
+      if(n>=1&&n<=PANELS.length){ e.preventDefault(); navigate(PANELS[n-1],true); }
+    });
+    window.addEventListener("popstate",function(){
+      showTab((location.hash||"#overview").slice(1),false);
+    });
+    var h=(location.hash||"#overview").slice(1);
+    showTab(PANELS.indexOf(h)>=0?h:"overview",false);
+    history.replaceState({s:h},"","#"+h);
+  }
+
+  if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded",init); }
+  else{ init(); }
+})();
+</script>
+</body>
+</html>
