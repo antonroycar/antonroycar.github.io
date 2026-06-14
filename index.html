@@ -483,20 +483,19 @@
       current: true,
       points: [
         "Manage and maintain F5 BIG-IP LTM configurations to ensure optimal load balancing across critical banking services.",
-        "Monitor and optimize network traffic distribution for high-availability internal platforms.",
         "Contribute to team-level automation initiatives, building scripts and tooling to streamline repetitive operational tasks.",
         "Collaborate with cross-functional infrastructure teams on network improvement projects."
       ]
     },
     {
-      title: "ODP IT (Officer Development Program)",
+      title: "ODP Information Technology",
       org: "PT Bank Mandiri (Persero) Tbk",
-      period: "Feb 2025 — Apr 2025",
+      period: "Feb 2025 — Nov 2025",
       employment: "Full-time",
       current: false,
       points: [
         "Completed the IT Officer Development Program, gaining foundational knowledge of Mandiri's IT infrastructure and operational processes.",
-        "Rotated across IT divisions to understand enterprise-scale systems and internal tooling."
+        "Participated in training programs covering basic banking knowledge"
       ]
     },
     {
@@ -540,7 +539,6 @@
       current: false,
       points: [
         "Developed a Android mobile app integrated with a bill validator for vending machines.",
-        "Enabled seamless hardware communication and optimized real-time transaction performance.",
         "Gained hands-on experience in mobile development and IoT integration."
       ]
     },
@@ -573,12 +571,12 @@
   var PROJECTS = [
     {
       name: "Taripar Website",
-      desc: "Developed a web-based agricultural monitoring system for KHDTK IT Del, enabling real-time sensor data visualization, farm plot monitoring, and integrated inventory management",
+      desc: "Developed a web-based agricultural monitoring system for KHDTK IT Del, enabling real-time sensor data visualization, farm plot monitoring, and integrated inventory management.",
       tech: ["Laravel", "MySQL", "REST API"],
       url:  "https://github.com/Taripar-Technology"
     },
     {
-      name: "Vending Machine Mobile App",
+      name: "Bill Validator Mobile App",
       desc: "Android mobile app integrated with a bill validator for vending machines, enabling hardware communication and real-time transaction handling via IoT.",
       tech: ["Android", "IoT"],
       url:  "https://github.com/antonroycar/cba9-android"
@@ -706,7 +704,7 @@
     window.addEventListener("popstate",function(){
       showTab((location.hash||"#overview").slice(1),false);
     });
-    var h=(location.hash||"").slice(1);
+    var h=(location.hash||"#").slice(1);
     if (!h) {
       showTab("overview", false);
     } else {
