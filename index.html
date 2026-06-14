@@ -706,9 +706,16 @@
     window.addEventListener("popstate",function(){
       showTab((location.hash||"#overview").slice(1),false);
     });
-    var h=(location.hash||"#overview").slice(1);
-    showTab(PANELS.indexOf(h)>=0?h:"overview",false);
-    history.replaceState({s:h},"","#"+h);
+    var h=(location.hash||"").slice(1);
+    if (!h) {
+      showTab("overview", false);
+    } else {
+      showTab(PANELS.indexOf(h) >= 0 ? h : "overview", false);
+    }
+    
+    if (location.hash) {
+      history.replaceState(null, null, window.location.pathname);
+    }
   }
 
   if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded",init); }
